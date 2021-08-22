@@ -1,10 +1,10 @@
 <?php
 include_once 'isAuthenticated.php';
-$pageTitle = 'home';
+$pageTitle = 'user';
 include_once 'autoload.php';
+include_once 'process.php';
 $personneRepository = new PersonneRepository();
 $personnes = $personneRepository->findAll();
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,6 +14,7 @@ $personnes = $personneRepository->findAll();
     <meta name=viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="public/style.css">
+    <link rel="stylesheet" type="text/css" href="public/formulaireStyle.scss">
 </head>
 <body>
 <?php
@@ -77,11 +78,12 @@ if (isset($_SESSION['user'])) {
                                 <thead>
                                 <tr class="table100-head">
                                     <th class="column1">Username</th>
-                                    <th class="column2">Nom</th>
-                                    <th class="column3">Prénom</th>
+                                    <th class="column2">Name</th>
+                                    <th class="column3">First Name</th>
                                     <th class="column4">Poste</th>
                                     <th class="column5">Phone</th>
-                                    <th class="column6">type</th>
+                                    <th class="column6">Type</th>
+                                    <th colspan="2">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -89,12 +91,18 @@ if (isset($_SESSION['user'])) {
                                     if($personne->type=="employe"){
                                         ?>
                                         <tr>
-                                            <td><?= $personne->nom ?></td>
-                                            <td><?= $personne->prénom ?></td>
                                             <td><?= $personne->username ?></td>
+                                            <td><?= $personne->nom ?></td>
+                                            <td><?= $personne->prenom ?></td>
                                             <td><?= $personne->poste ?></td>
                                             <td><?= $personne->phone ?></td>
                                             <td><?= $personne->type ?></td>
+                                            <td>
+                                                <a href="userUpdate.php?edit=<?php echo $personne->id_utilisateur; ?>"
+                                                   class="btn btn-info">Edit</a>
+                                                <a href="utilisateur.php?delete=<?php echo $personne->id_utilisateur; ?>"
+                                                   class="btn btn-danger">Delete</a>
+                                            </td>
                                         </tr>
                                         <?php
                                     }}
@@ -106,6 +114,16 @@ if (isset($_SESSION['user'])) {
                         </div>
                     </div>
                 </div>
+                <form action="process.php" method="POST">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" name="nom" class="form-control" value="<?php echo $nom; ?>" >
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" name="username" class="form-control"
+                               value="<?php echo $username; ?>" >
+                    </div>
             </div>
 
 

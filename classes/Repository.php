@@ -18,14 +18,14 @@ class Repository
         return $response->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function findEtatById($id) {
-        $request = "select * from ".$this->tableName ." where id_état = '$id'";
+    public function DeleteUserById($id) {
+        $request = "DELETE FROM ".$this->tableName." WHERE id_utilisateur='$id'";
         $response =$this->bd->prepare($request);
         $response->execute([]);
         return $response->fetch(PDO::FETCH_OBJ);
     }
-    public function findPrioritéById($id) {
-        $request = "select * from ".$this->tableName ." where id_priorité = '$id'";
+    public function findById($id) {
+        $request = "select * from ".$this->tableName ." where id_utilisateur = '$id'";
         $response =$this->bd->prepare($request);
         $response->execute([]);
         return $response->fetch(PDO::FETCH_OBJ);
