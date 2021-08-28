@@ -1,0 +1,15 @@
+
+#demoFont {
+    font-family: Georgia, serif;
+    font-size: 27px;
+    letter-spacing: 1.2px;
+    word-spacing: 2.4px;
+    color: #008ea1;
+    font-weight: 700;
+    text-decoration: none solid rgb(68, 68, 68);
+    font-style: italic;
+    font-variant: small-caps;
+    text-transform: uppercase;
+    text-align: center;
+
+}

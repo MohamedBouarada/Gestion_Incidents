@@ -18,7 +18,7 @@ $personnes = $personneRepository->findAll();
 </head>
 <body>
 <?php
-if (isset($_SESSION['user'])) {
+if (isset($_SESSION['user'])&&($_SESSION['user']=="admin")) {
     ?>
     <input type="checkbox" id="menu" name="">
     <div class="sidebar">
@@ -67,6 +67,7 @@ if (isset($_SESSION['user'])) {
                 </div>
 
             </div>
+
         </header>
 
         <main>
@@ -114,16 +115,7 @@ if (isset($_SESSION['user'])) {
                         </div>
                     </div>
                 </div>
-                <form action="process.php" method="POST">
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" name="nom" class="form-control" value="<?php echo $nom; ?>" >
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="text" name="username" class="form-control"
-                               value="<?php echo $username; ?>" >
-                    </div>
+
             </div>
 
 

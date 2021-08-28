@@ -33,9 +33,16 @@ if(!empty($_POST['uname'])and !empty($_POST['password'])) {
 
 
     if ($count == 1) {
-        $_SESSION['user'] = "mbouarada";
-        header('location:home.php');
 
+        if($row['type']=="admin") {
+            header('location:home.php');
+            $_SESSION['user'] = "admin";
+        }
+        else{
+            $_SESSION['user'] = "employe";
+            header('location:employehome.php ');
+
+        }
     } else {
         echo "<h1> Login failed. Invalid username or password.</h1>";
     }

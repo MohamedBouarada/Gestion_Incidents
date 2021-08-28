@@ -23,21 +23,35 @@ if (isset($_SESSION['user'])) {
 
         <div class="sidebar-menu">
             <ul>
-                <li>
-                    <a href="" class="active"><span class="fa fa-home"></span><span>Accueil</span></a>
-                </li>
-                <li>
-                    <a href="utilisateur.php"><span class="fa fa-user"></span><span>Utilisateurs</span></a>
-                </li>
-                <li>
-                    <a href="incident.php"><span class="fa fa-exclamation-circle"></span><span>Incidents</span></a>
-                </li>
-                <li>
-                    <a href=""><span class="fa fa-line-chart"></span><span>Statistique</span></a>
-                </li>
-                <li>
-                    <a href=""><span class="fa fa-address-book"></span><span>A-propos</span></a>
-                </li>
+                <?php
+                if ($_SESSION['user']=="admin") {
+                    ?>
+                    <li>
+                        <a href="home.php" class="active"><span class="fa fa-home"></span><span>Accueil</span></a>
+                    </li>
+                    <li>
+                        <a href="utilisateur.php"><span class="fa fa-user"></span><span>Utilisateurs</span></a>
+                    </li>
+                    <li>
+                        <a href="incident.php" ><span class="fa fa-exclamation-circle"></span><span>Incidents</span></a>
+                    </li>
+                    <li>
+                        <a href=""><span class="fa fa-line-chart"></span><span>Statistique</span></a>
+                    </li>
+                    <?php
+                }
+
+                else{
+                    ?>
+                    <li>
+                        <a href="home.php" class="active" ><span class="fa fa-home"></span><span>Accueil</span></a>
+                    </li>
+                    <li>
+                        <a href="incident.php" ><span class="fa fa-exclamation-circle"></span><span>Incidents</span></a>
+                    </li>
+                    <?php
+                }
+                ?>
             </ul>
         </div>
     </div>
@@ -51,10 +65,22 @@ if (isset($_SESSION['user'])) {
 
 
             <div class="user-wrapper" id="dropdown">
-                <div>
-                    <small>ADMIN</small>
-                </div>
-
+                <?php
+                if ($_SESSION['user']=="admin") {
+                    ?>
+                    <div>
+                        <small>ADMIN</small>
+                    </div>
+                    <?php
+                }
+                else{
+                    ?>
+                    <div>
+                        <small>EMPLOYE</small>
+                    </div>
+                    <?php
+                }
+                ?>
                 <img src="public/assets/images/logo-admin.jpg" width="50" height="50" class="logo-admin">
                 <div class="dropdown-content">
                     <p>Profile</p>

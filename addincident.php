@@ -3,8 +3,6 @@ include_once 'isAuthenticated.php';
 $pageTitle = 'updateUser';
 include_once 'autoload.php';
 include_once 'process.php';
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,11 +13,12 @@ include_once 'process.php';
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="public/style.css">
     <link rel="stylesheet" type="text/css" href="public/formulaireStyle.scss">
+    <link rel="stylesheet" type="text/css" href="public/CSS/ButtonStyle.css">
     <link rel="stylesheet" type="text/css" href="public/CSS/TextStyle.css">
 </head>
 <body>
 <?php
-if (isset($_SESSION['user'])&&($_SESSION['user']=="admin")) {
+if (isset($_SESSION['user'])) {
     ?>
     <input type="checkbox" id="menu" name="">
     <div class="sidebar">
@@ -30,19 +29,10 @@ if (isset($_SESSION['user'])&&($_SESSION['user']=="admin")) {
         <div class="sidebar-menu">
             <ul>
                 <li>
-                    <a href="home.php" ><span class="fa fa-home"></span><span>Accueil</span></a>
-                </li>
-                <li>
-                    <a href="" class="active"><span class="fa fa-user"></span><span>Utilisateurs</span></a>
+                    <a href="employehome.php" ><span class="fa fa-home"></span><span>Accueil</span></a>
                 </li>
                 <li>
                     <a href="incident.php"><span class="fa fa-exclamation-circle"></span><span>Incidents</span></a>
-                </li>
-                <li>
-                    <a href=""><span class="fa fa-line-chart"></span><span>Statistique</span></a>
-                </li>
-                <li>
-                    <a href=""><span class="fa fa-address-book"></span><span>A-propos</span></a>
                 </li>
             </ul>
         </div>
@@ -57,9 +47,22 @@ if (isset($_SESSION['user'])&&($_SESSION['user']=="admin")) {
 
 
             <div class="user-wrapper" id="dropdown">
-                <div>
-                    <small>ADMIN</small>
-                </div>
+                <?php
+                if ($_SESSION['user']=="admin") {
+                    ?>
+                    <div>
+                        <small>ADMIN</small>
+                    </div>
+                    <?php
+                }
+                else{
+                    ?>
+                    <div>
+                        <small>EMPLOYE</small>
+                    </div>
+                    <?php
+                }
+                ?>
 
                 <img src="public/assets/images/logo-admin.jpg" width="50" height="50" class="logo-admin">
                 <div class="dropdown-content">
@@ -70,40 +73,43 @@ if (isset($_SESSION['user'])&&($_SESSION['user']=="admin")) {
             </div>
         </header>
         <main>
-            <div id="demoFont">modifier utilisateur</div>
             <div class="form-style-5">
+
+                <div id="demoFont">creation d'un nouveau incident</div>
                 <form>
                     <fieldset>
                         <form action="process.php" method="POST">
-                            <input type="hidden" name="id" value="<?php echo $id; ?>">
                             <div class="form-group">
-                                <label>Username</label>
-                                <input type="text" name="username" class="form-control"
-                                       value="<?php echo $username; ?>" >
+                                <label>Réference</label>
+                                <input type="text" name="reference" class="form-control">
                             </div>
                             <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" name="nom" class="form-control" value="<?php echo $nom; ?>" >
+                                <label>Titre</label>
+                                <input type="text" name="titre" class="form-control" value="" >
                             </div>
                             <div class="form-group">
-                                <label>First Name</label>
-                                <input type="text" name="firstname" class="form-control"
-                                       value="<?php echo $firstname; ?>" >
+                                <label>Description</label>
+                                <input type="text" name="description" class="form-control"
+                                       value="" >
                             </div>
                             <div class="form-group">
-                                <label>Poste</label>
-                                <input type="text" name="poste" class="form-control"
-                                       value="<?php echo $poste; ?>" >
+                                <label>Date_création</label>
+                                <input type="datetime-local" name="datecreation" class="form-control"
+                                       value="" >
                             </div>
                             <div class="form-group">
-                                <label>Phone</label>
-                                <input type="text" name="phone" class="form-control"
-                                       value="<?php echo $phone; ?>" >
+                                <label>Prioritè</label>
+                                <select id="prio" name="priority">
+                                    <option value="priority1">haute</option>
+                                    <option value="priority2">moyenne</option>
+                                    <option value="priority3">faible</option>
+                                </select>
+
                             </div>
                             <div class="form-group">
-                                <label>Password</label>
-                                <input type="text" name="password" class="form-control"
-                                       value="<?php echo $password; ?>" >
+                                <label>ID_Utilisateur</label>
+                                <input type="text" name="utilisateur" class="form-control"
+                                       value="" >
                             </div>
                             <div class="form-group">
                                 <label>Département</label>
@@ -112,25 +118,24 @@ if (isset($_SESSION['user'])&&($_SESSION['user']=="admin")) {
                                     $departementRepository = new DepartementRepository();
                                     $departementss = $departementRepository->findAll();
                                     foreach ($departementss as $departements){
-                                        if($departements->id_departement==$departement){
-                                    ?>
-                                            <option value="departement1" selected><?= $departements->nom ?> </option>
-                                    <?php
-                                        }
-                                        else{
+
                                             ?>
                                             <option value="departement1" ><?= $departements->nom ?> </option>
+
+
+
                                         <?php
-                                        }
-                                        ?>
-                                    <?php
                                     }
                                     ?>
                                 </select>
                             </div>
-                            <form method="get" action="/utilisateur.php">
-                                <button type="submit" name="update">UPDATE</button>
-                            </form>
+
+
+                                    <a href="/incident.php?enregistrer1" class="myButton" name="enregistrer">Enregistrer</a>
+
+                                    <a href="/incident.php" class="muButton2">ANNULER</a>
+
+
                         </form>
 
 
