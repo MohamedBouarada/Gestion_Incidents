@@ -20,7 +20,10 @@ include_once 'process.php';
 </head>
 <body>
 <?php
-if (isset($_SESSION['user'])) {
+if (isset($_SESSION['user'])&&(isset($_SESSION['id']))) {
+    if(isset($id_utilisateur)){
+        if(($_SESSION['id']==$id_utilisateur)||($_SESSION['user']=="admin")){
+
     ?>
     <input type="checkbox" id="menu" name="">
     <div class="sidebar">
@@ -105,7 +108,7 @@ if (isset($_SESSION['user'])) {
                         <form action="process.php" method="POST">
                             <input type="hidden" name="idincid" value="<?php if(isset($id)){echo $id; }?>">
                             <?php
-                            if ($_SESSION['user']=="employe") {
+                            if ($_SESSION['user']=="employe"){
                             ?>
                                 <div class="form-group">
                                     <label>Réference</label>
@@ -174,7 +177,7 @@ if (isset($_SESSION['user'])) {
 
                             <?php
                             }
-                            else{
+                            else {
                             ?>
                                 <div class="form-group">
                                     <label>description</label>
@@ -221,6 +224,10 @@ if (isset($_SESSION['user'])) {
     </div>
     <?php
 }
+        else{
+            header("location: incident.php");
+        }
+    }}
 ?>
 </body>
 </html>

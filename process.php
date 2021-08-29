@@ -2,6 +2,7 @@
 
 include_once 'connection.php';
 if(isset($conn)){
+
 if(isset($_GET['delete'])){
     $id=$_GET['delete'];
     $conn->query("DELETE FROM utilisateur WHERE id_utilisateur='$id'");
@@ -60,6 +61,7 @@ if(isset($_GET['editincid'])){
         $description = $row['description'];
         $priority = $row['nom_priority'];
         $nom_état = $row['nom_etat'];
+        $id_utilisateur=$row['id_utilisateur'];
     }
 }
 
@@ -90,3 +92,4 @@ if(isset($_POST['enregistrer'])&&($_SESSION['user']=="employe")&&(!empty($_POST[
 
 }
 }
+

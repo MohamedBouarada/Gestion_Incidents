@@ -20,7 +20,7 @@ $incidents = $incidentRepository->findAll();
 </head>
 <body>
 <?php
-if (isset($_SESSION['user'])) {
+if (isset($_SESSION['user'])&&(isset($_SESSION['id']))) {
     ?>
 
     <div class="sidebar">
@@ -59,6 +59,7 @@ if (isset($_SESSION['user'])) {
                 <?php
                 }
                 ?>
+                <img src="public/assets/images/mèdina%20logo.png" alt="avatar" style="width:100%">
             </ul>
         </div>
     </div>
@@ -81,21 +82,23 @@ if (isset($_SESSION['user'])) {
             <div class="user-wrapper" id="dropdown">
                 <?php
                 if ($_SESSION['user']=="admin") {
-                ?>
-                <div>
-                    <small>ADMIN</small>
-                </div>
-                <?php
+                    ?>
+                    <div>
+                        <small>ADMIN</small>
+                    </div>
+
+                    <img src="public/assets/images/logo-admin.jpg" width="50" height="50" class="logo-admin">
+                    <?php
                 }
                 else{
-                ?>
-                <div>
-                    <small>EMPLOYE</small>
-                </div>
-                <?php
+                    ?>
+                    <div>
+                        <small>EMPLOYE</small>
+                    </div>
+                    <img src="public/assets/images/icon-user.png" width="50" height="50" class="logo-admin">
+                    <?php
                 }
                 ?>
-                <img src="public/assets/images/logo-admin.jpg" width="50" height="50" class="logo-admin">
                 <div class="dropdown-content">
                     <p>Profile</p>
                     <a class="dropdown-item" href="logout.php">Logout</a>
@@ -112,11 +115,12 @@ if (isset($_SESSION['user'])) {
                             <table>
                                 <thead>
                                 <tr class="table100-head">
-                                    <th>réference</th>
-                                    <th>titre</th>
-                                    <th>date_création</th>
-                                    <th>priorité</th>
-                                    <th>état</th>
+                                    <th class="column1">réference</th>
+                                    <th class="column2">titre</th>
+                                    <th class="column3">date_création</th>
+                                    <th class="column4">priorité</th>
+                                    <th class="column5">état</th>
+                                    <th  class="column6" colspan="1">demandeur</th>
                                     <th>action</th>
                                 </tr>
                                 </thead>
@@ -130,9 +134,31 @@ if (isset($_SESSION['user'])) {
                                         <td><?= $incident->datecreation ?></td>
                                         <td><?= $incident->nom_priority ?></td>
                                         <td><?= $incident->nom_etat ?></td>
+                                        <td><?php
+
+                                            $personneRepository = new PersonneRepository();
+                                            $personnes = $personneRepository->findAll();
+                                            foreach ($personnes as $personne){
+                                            if ($personne->id_utilisateur == $incident->id_utilisateur){
+
+                                            ?>
+                                            <?= $personne->id_utilisateur ?>
+
+                                            <?= $personne->nom ?>
+                                        </td>
+                                        <?php
+                                            }}
+                                        ?>
                                         <td>
+                                            <?php
+                                            if(($_SESSION['id']==$incident->id_utilisateur)||($_SESSION['user']=="admin")){
+                                            ?>
                                             <a href="updateIncident.php?editincid=<?php echo $incident->id_incid; ?>"
                                                class="btn btn-info">Edit</a>
+                                            <?php
+                                            }
+                                            ?>
+                                        </td>
 
                                     </tr>
                                     <?php

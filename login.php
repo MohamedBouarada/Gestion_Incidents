@@ -37,10 +37,12 @@ if(!empty($_POST['uname'])and !empty($_POST['password'])) {
         if($row['type']=="admin") {
             header('location:home.php');
             $_SESSION['user'] = "admin";
+            $_SESSION['id']=$row['id_utilisateur'];
         }
         else{
             $_SESSION['user'] = "employe";
-            header('location:employehome.php ');
+            header('location:home.php ');
+            $_SESSION['id']=$row['id_utilisateur'];
 
         }
     } else {
@@ -75,9 +77,12 @@ if(!empty($_POST['uname'])and !empty($_POST['password'])) {
 
     <section class="ftco-section">
         <div class="container">
+
             <div class="row justify-content-center">
                 <div class="col-md-6 col-lg-5">
+
                     <div class="login-wrap p-4 p-md-5">
+                        <img src="public/assets/images/mèdina%20logo.png" alt="avatar" style="width:100%">
                         <div class="icon d-flex align-items-center justify-content-center">
                             <span class="fa fa-user-o"></span>
                         </div>
@@ -101,7 +106,7 @@ if(!empty($_POST['uname'])and !empty($_POST['password'])) {
                                 </div>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary rounded submit p-3 px-5">Get Started</button>
+                                <button type="submit" class="btn btn-primary rounded submit p-3 px-5">Login</button>
                             </div>
                         </form>
                     </div>
