@@ -15,6 +15,7 @@ $personnes = $personneRepository->findAll();
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="public/style.css">
     <link rel="stylesheet" type="text/css" href="public/formulaireStyle.scss">
+    <link rel="stylesheet" type="text/css" href="public/CSS/ButtonStyle.css">
 </head>
 <body>
 <?php
@@ -71,8 +72,39 @@ if (isset($_SESSION['user'])&&($_SESSION['user']=="admin")) {
         <main>
             <div class="limiter">
                 <div class="container-table100">
+                    <div>
+                        <a href="/userAdd.php" class="myButton">créer un incident</a>
+                    </div>
                     <div class="wrap-table100">
                         <div class="table100">
+                            <?php
+                            if((isset($_GET['success'])) && $_GET['success']==1){
+                                ?>
+                                <p style="color: #00bf00">incident modifié avec succes</p>
+                                <?php
+                            }else if((isset($_GET['error'])) && $_GET['error']==1){
+                                ?>
+                                <p style="color: #bf0000">error</p>
+                                <?php
+                            }
+
+                            else if((isset($_GET['success'])) && $_GET['success']==2){
+                                ?>
+                                <p style="color: #00bf00">incident supprimé avec succes</p>
+                                <?php
+                            }else if((isset($_GET['error'])) && $_GET['error']==2){
+                                ?>
+                                <p style="color: #bf0000">Vous devez supprimé les incidents correspondant à cet utilisateur</p>
+                                <?php
+                            }
+                            ?>
+                            <?php
+                            if((isset($_GET['success'])) && $_GET['success']==3){
+                                ?>
+                                <p style="color: #00bf00">utilisateur ajouté avec succes</p>
+                                <?php
+                            }
+                            ?>
                             <table>
                                 <thead>
                                 <tr class="table100-head">
@@ -81,6 +113,7 @@ if (isset($_SESSION['user'])&&($_SESSION['user']=="admin")) {
                                     <th class="column3">First Name</th>
                                     <th class="column4">Poste</th>
                                     <th class="column5">Phone</th>
+                                    <th class="column7">Département</th>
                                     <th class="column6">Type</th>
                                     <th colspan="2">Action</th>
                                 </tr>
@@ -95,11 +128,26 @@ if (isset($_SESSION['user'])&&($_SESSION['user']=="admin")) {
                                             <td><?= $personne->prenom ?></td>
                                             <td><?= $personne->poste ?></td>
                                             <td><?= $personne->phone ?></td>
+                                            <?php
+
+                                            $departementRepository = new DepartementRepository();
+                                            $departements = $departementRepository->findAll();
+
+                                            foreach ($departements as $departement){
+                                                if ($departement->id_departement == $personne->id_departement){
+
+                                                    ?>
+                                                    <td><?= $departement->nom ?>
+
+                                                    </td>
+                                                    <?php
+                                                }}
+                                            ?>
                                             <td><?= $personne->type ?></td>
                                             <td>
                                                 <a href="userUpdate.php?edit=<?php echo $personne->id_utilisateur; ?>"
                                                    class="btn btn-info">Edit</a>
-                                                <a href="utilisateur.php?delete=<?php echo $personne->id_utilisateur; ?>"
+                                                <a href="utilisateur_delete.php?delete=<?php echo $personne->id_utilisateur; ?>"
                                                    class="btn btn-danger">Delete</a>
                                             </td>
                                         </tr>

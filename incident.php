@@ -109,9 +109,40 @@ if (isset($_SESSION['user'])&&(isset($_SESSION['id']))) {
         </header>
         <main>
             <div class="limiter">
+
                 <div class="container-table100">
                     <div class="wrap-table100">
                         <div class="table100">
+                            <?php
+                            if((isset($_GET['success'])) && $_GET['success']==1){
+                            ?>
+                            <p style="color: #00bf00">incident ajouté avec succes</p>
+                            <?php
+                            }
+                            ?>
+                            <?php
+                            if((isset($_GET['success'])) && $_GET['success']==2){
+                                ?>
+                                <p style="color: #bf0000">incident supprimé</p>
+                                <?php
+                            }
+                            else if((isset($_GET['error'])) && $_GET['error']==2){
+                            ?>
+                            <p style="color: #bf0000">can't delete incident</p>
+                            <?php
+                            }
+                            ?>
+                            <?php
+                            if((isset($_GET['success'])) && $_GET['success']==3){
+                                ?>
+                                <p style="color: #00bf00">incident modifié avec succes</p>
+                                <?php
+                            }else if((isset($_GET['error'])) && $_GET['error']==3){
+                                ?>
+                                <p style="color: #bf0000">error</p>
+                                <?php
+                            }
+                            ?>
                             <table>
                                 <thead>
                                 <tr class="table100-head">
@@ -119,13 +150,22 @@ if (isset($_SESSION['user'])&&(isset($_SESSION['id']))) {
                                     <th class="column2">titre</th>
                                     <th class="column3">date_création</th>
                                     <th class="column4">priorité</th>
+                                    <th class="column7">departement</th>
+                                    <th class="column8">filiale</th>
                                     <th class="column5">état</th>
+                                    <?php
+                                    if($_SESSION['user']=="admin"){
+                                    ?>
                                     <th  class="column6" colspan="1">demandeur</th>
-                                    <th>action</th>
+                                    <?php
+                                    }
+                                    ?>
+                                    <th colspan="2">action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <?php foreach ($incidents as $incident) {
+                                if(($_SESSION['id']==$incident->id_utilisateur)||($_SESSION['user']=="admin")){
 
                                     ?>
                                     <tr>
@@ -133,36 +173,66 @@ if (isset($_SESSION['user'])&&(isset($_SESSION['id']))) {
                                         <td><?= $incident->titre ?></td>
                                         <td><?= $incident->datecreation ?></td>
                                         <td><?= $incident->nom_priority ?></td>
-                                        <td><?= $incident->nom_etat ?></td>
-                                        <td><?php
+                                        <?php
 
+                                        $departementRepository = new DepartementRepository();
+                                        $departements = $departementRepository->findAll();
+                                        $filialeRepository = new FilialeRepository();
+                                        $filiales = $filialeRepository->findAll();
+
+                                        foreach ($departements as $departement){
+                                        if ($departement->id_departement == $incident->id_departement){
+
+                                        ?>
+                                            <td><?= $departement->nom ?>
+
+                                                 </td>
+                                        <?php
+                                        foreach($filiales as $filiale){
+                                            if($departement->id_filiale == $filiale->id_filiale){
+                                                ?>
+                                        <td><?= $filiale->nom ?>
+
+                                        </td>
+                                            <?php }
+                                        }
+
+                                        }
+
+
+                                        }
+                                        ?>
+
+
+                                        <td><?= $incident->nom_etat ?></td>
+                                        <?php
+                                            if($_SESSION['user']=="admin"){
                                             $personneRepository = new PersonneRepository();
                                             $personnes = $personneRepository->findAll();
                                             foreach ($personnes as $personne){
                                             if ($personne->id_utilisateur == $incident->id_utilisateur){
 
                                             ?>
-                                            <?= $personne->id_utilisateur ?>
+                                        <td><?= $personne->id_utilisateur ?>
 
-                                            <?= $personne->nom ?>
-                                        </td>
+                                            <?= $personne->nom ?> </td>
+                                                <?php    } ?>
+
                                         <?php
                                             }}
                                         ?>
                                         <td>
-                                            <?php
-                                            if(($_SESSION['id']==$incident->id_utilisateur)||($_SESSION['user']=="admin")){
-                                            ?>
+
                                             <a href="updateIncident.php?editincid=<?php echo $incident->id_incid; ?>"
                                                class="btn btn-info">Edit</a>
-                                            <?php
-                                            }
-                                            ?>
+                                            <a href="incident_delete.php?deleteincid=<?php echo $incident->id_incid; ?>"
+                                               class="btn btn-danger">Delete</a>
+
                                         </td>
 
                                     </tr>
                                     <?php
-                                }
+                                }}
                                 ?>
 
 

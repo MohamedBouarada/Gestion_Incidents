@@ -4,7 +4,6 @@ $pageTitle = 'updateIncident';
 include_once 'autoload.php';
 include_once 'process.php';
 
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,8 +20,6 @@ include_once 'process.php';
 <body>
 <?php
 if (isset($_SESSION['user'])&&(isset($_SESSION['id']))) {
-    if(isset($id_utilisateur)){
-        if(($_SESSION['id']==$id_utilisateur)||($_SESSION['user']=="admin")){
 
     ?>
     <input type="checkbox" id="menu" name="">
@@ -103,9 +100,9 @@ if (isset($_SESSION['user'])&&(isset($_SESSION['id']))) {
         <main>
             <div id="demoFont">editer un incident</div>
             <div class="form-style-5">
-                <form>
+
                     <fieldset>
-                        <form action="process.php" method="POST">
+                        <form action="incident_update.php" method="POST">
                             <input type="hidden" name="idincid" value="<?php if(isset($id)){echo $id; }?>">
                             <?php
                             if ($_SESSION['user']=="employe"){
@@ -115,6 +112,8 @@ if (isset($_SESSION['user'])&&(isset($_SESSION['id']))) {
                                     <input type="text" name="reference" class="form-control"
                                            value="<?php if(isset($reference)){echo $reference; }?>" >
                                 </div>
+
+
                                 <div class="form-group">
                                     <label>titre</label>
                                     <input type="text" name="titre" class="form-control"
@@ -139,7 +138,7 @@ if (isset($_SESSION['user'])&&(isset($_SESSION['id']))) {
                                         foreach ($departementss as $departements){
 
                                             ?>
-                                            <option value="departement1" ><?= $departements->nom ?> </option>
+                                            <option value="<?=$departements->id_departement ?>" ><?= $departements->nom ?> </option>
 
 
 
@@ -152,30 +151,36 @@ if (isset($_SESSION['user'])&&(isset($_SESSION['id']))) {
                                 <label>Prioritè</label>
                                 <select id="prio" name="priority">
                                     <?php if(isset($priority)&&($priority=="haute")){?>
-                                    <option value="priority1" selected>haute</option>
-                                    <option value="priority2">moyenne</option>
-                                    <option value="priority3">faible</option>
+                                    <option value="haute" selected>haute</option>
+                                    <option value="moyenne">moyenne</option>
+                                    <option value="faible">faible</option>
                                     <?php
                                     }
                                     elseif(isset($priority)&&($priority=="moyenne")){?>
-                                    <option value="priority1" >haute</option>
-                                    <option value="priority2" selected>moyenne</option>
-                                    <option value="priority3">faible</option>
+                                    <option value="haute" >haute</option>
+                                    <option value="moyenne" selected>moyenne</option>
+                                    <option value="faible">faible</option>
                                     <?php
                                     }
                                     else
                                     {
                                         ?>
-                                    <option value="priority1" >haute</option>
-                                    <option value="priority2" >moyenne</option>
-                                    <option value="priority3" selected>faible</option>
+                                    <option value="haute" >haute</option>
+                                    <option value="moyenne" >moyenne</option>
+                                    <option value="faible" selected>faible</option>
                                     <?php
                                     }
                                     ?>
 
                                 </select>
+                                <div class="form-group">
+                                    <label>commentaire</label>
+                                    <input type="text" name="commentaire" class="form-control"
+                                           value="<?php if(isset($commentaire)){echo $commentaire; }?>" >
+                                </div>
 
-                            <?php
+
+                                <?php
                             }
                             else {
                             ?>
@@ -186,28 +191,45 @@ if (isset($_SESSION['user'])&&(isset($_SESSION['id']))) {
                                 </div>
                                 <div class="form-group">
                                     <label>Etat</label>
-                                    <select id="depart" name="etat">
-                                        <option value="etat1" selected><?php if(isset($nom_état)){echo $nom_état ;}?> </option>
-                                        <option value="etat2" >corrigé </option>
-                                        <option value="etat3" >non-traité </option>
+                                    <select id="et" name="etat">
+                                        <?php if(isset($nom_etat)&&($nom_etat=="en attente")){?>
+                                            <option value="en attente" selected>en attente</option>
+                                            <option value="corrige">corrige</option>
+                                            <option value="non-traite">non-traite</option>
+                                            <?php
+                                        }
+                                        elseif(isset($nom_etat)&&($nom_etat=="corrige")){?>
+                                            <option value="en attente" >en attente</option>
+                                            <option value="corrige" selected>corrige</option>
+                                            <option value="non-traite">non-traite</option>
+                                            <?php
+                                        }
+                                        else
+                                        {
+                                            ?>
+                                            <option value="en attente" >en attente</option>
+                                            <option value="corrige" >corrige</option>
+                                            <option value="non-traite" selected>non-traite</option>
+                                            <?php
+                                        }
+                                        ?>
 
                                     </select>
+                                    <div class="form-group">
+                                        <label>commentaire</label>
+                                        <input type="text" name="commentaire" class="form-control"
+                                                >
+                                    </div>
+
                                 </div>
 
                             <?php
                             }
                             ?>
-                            <a href="/incident.php?updateincid=<?php if(isset($id)){echo $id ;}?>" class="myButton" >modifier</a>
-                            <?php
-                            if ($_SESSION['user']=="employe") {
-                            ?>
-                            <a href="userUpdate.php?deleteincid=<?php if(isset($id)){echo $id ;}?> "
-                               class="muButton2">supprimer</a>
-                            <?php
-                            }
-                            ?>
-                            <a href="/incident.php" class="muButton2">ANNULER</a>
+                            <input type="submit" value="modifier" class="myButton">
 
+
+                            <input type="reset" value="annuler" class="muButton2">
                         </form>
 
 
@@ -216,7 +238,6 @@ if (isset($_SESSION['user'])&&(isset($_SESSION['id']))) {
 
 
 
-                </form>
             </div>
         </main>
 
@@ -224,10 +245,7 @@ if (isset($_SESSION['user'])&&(isset($_SESSION['id']))) {
     </div>
     <?php
 }
-        else{
-            header("location: incident.php");
-        }
-    }}
+
 ?>
 </body>
 </html>

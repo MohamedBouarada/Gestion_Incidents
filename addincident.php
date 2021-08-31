@@ -1,8 +1,8 @@
 <?php
 include_once 'isAuthenticated.php';
-$pageTitle = 'updateUser';
+$pageTitle = 'addincident';
 include_once 'autoload.php';
-include_once 'process.php';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +18,7 @@ include_once 'process.php';
 </head>
 <body>
 <?php
-if (isset($_SESSION['user'])) {
+if ((isset($_SESSION['user']))&&($_SESSION['user']=="employe")) {
     ?>
     <input type="checkbox" id="menu" name="">
     <div class="sidebar">
@@ -76,41 +76,65 @@ if (isset($_SESSION['user'])) {
             <div class="form-style-5">
 
                 <div id="demoFont">creation d'un nouveau incident</div>
-                <form>
+
                     <fieldset>
-                        <form action="process.php" method="POST">
+                        <?php
+                        if((isset($_GET['error'])) && $_GET['error']==1){
+                            ?>
+                            <p style="color:#721c24 ">vérifiez vos données</p>
+                            <?php
+                        }
+                        ?>
+                        <form action="incident_add.php" method="POST">
                             <div class="form-group">
                                 <label>Réference</label>
-                                <input type="text" name="reference" class="form-control">
+                                <input type="text" name="reference" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label>Titre</label>
-                                <input type="text" name="titre" class="form-control" value="" >
+                                <input type="text" name="titre" class="form-control" required >
                             </div>
                             <div class="form-group">
                                 <label>Description</label>
                                 <input type="text" name="description" class="form-control"
-                                       value="" >
-                            </div>
-                            <div class="form-group">
-                                <label>Date_création</label>
-                                <input type="datetime-local" name="datecreation" class="form-control"
-                                       value="" >
+                                       required >
                             </div>
                             <div class="form-group">
                                 <label>Prioritè</label>
-                                <select id="prio" name="priority">
-                                    <option value="priority1">haute</option>
-                                    <option value="priority2">moyenne</option>
-                                    <option value="priority3">faible</option>
+                                <select id="prio" name="priority" required>
+                                    <option value="haute">haute</option>
+                                    <option value="moyenne">moyenne</option>
+                                    <option value="faible">faible</option>
                                 </select>
 
                             </div>
+
+                                <input type="hidden" name="utilisateur" class="form-control"
+                                       value="<?php echo $_SESSION['id']; ?>" >
+
+
+
                             <div class="form-group">
-                                <label>ID_Utilisateur</label>
-                                <input type="text" name="utilisateur" class="form-control"
-                                       value="" >
+                                <label>Filiale</label>
+
+                                <select id="filial" name="filiale" >
+                                    <?php
+                                    $filialeRepository = new FilialeRepository();
+                                    $filiales = $filialeRepository->findAll();
+
+
+                                    foreach ($filiales as $filiale){
+
+                                    ?>
+                                        <option value="<?= $filiale->id_filiale ?>" ><?= $filiale->nom ?> </option>
+
+                                    <?php
+                                    }
+                                    ?>
+                                </select>
                             </div>
+
+
                             <div class="form-group">
                                 <label>Département</label>
                                 <select id="depart" name="departements">
@@ -118,22 +142,23 @@ if (isset($_SESSION['user'])) {
                                     $departementRepository = new DepartementRepository();
                                     $departementss = $departementRepository->findAll();
                                     foreach ($departementss as $departements){
-
-                                            ?>
-                                            <option value="departement1" ><?= $departements->nom ?> </option>
-
-
+                                    if($departements->id_filiale=="1"){
+                                        ?>
+                                            <option value="<?= $departements->id_departement ?>" ><?= $departements->nom ?> </option>
 
                                         <?php
                                     }
+                                    }
+
+
+
                                     ?>
                                 </select>
                             </div>
 
+                                    <input type="submit" value="ajouter incident" class="myButton">
+                                    <input type="reset" value="annuler" class="muButton2">
 
-                                    <a href="/incident.php?enregistrer1" class="myButton" name="enregistrer">Enregistrer</a>
-
-                                    <a href="/incident.php" class="muButton2">ANNULER</a>
 
 
                         </form>
@@ -143,7 +168,7 @@ if (isset($_SESSION['user'])) {
 
 
 
-                </form>
+
             </div>
         </main>
 

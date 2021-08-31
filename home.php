@@ -41,7 +41,7 @@ if (isset($_SESSION['id'])&&isset($_SESSION['user'])) {
                     <li>
                         <a href=""><span class="fa fa-line-chart"></span><span>Statistique</span></a>
                     </li>
-                    <img src="public/assets/images/mèdina%20logo.png" alt="avatar" style="width:100%">
+
                     <?php
                 }
 
@@ -56,6 +56,7 @@ if (isset($_SESSION['id'])&&isset($_SESSION['user'])) {
                     <?php
                 }
                 ?>
+                <img src="public/assets/images/mèdina%20logo.png" alt="avatar" style="width:100%">
             </ul>
         </div>
     </div>

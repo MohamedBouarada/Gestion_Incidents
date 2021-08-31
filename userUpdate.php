@@ -16,6 +16,7 @@ include_once 'process.php';
     <link rel="stylesheet" type="text/css" href="public/style.css">
     <link rel="stylesheet" type="text/css" href="public/formulaireStyle.scss">
     <link rel="stylesheet" type="text/css" href="public/CSS/TextStyle.css">
+    <link rel="stylesheet" type="text/css" href="public/CSS/ButtonStyle.css">
 </head>
 <body>
 <?php
@@ -72,9 +73,10 @@ if (isset($_SESSION['user'])&&($_SESSION['user']=="admin")) {
         <main>
             <div id="demoFont">modifier utilisateur</div>
             <div class="form-style-5">
-                <form>
+
                     <fieldset>
-                        <form action="process.php" method="POST">
+
+                        <form action="utilisateur_update.php" method="POST">
                             <input type="hidden" name="id" value="<?php echo $id; ?>">
                             <div class="form-group">
                                 <label>Username</label>
@@ -114,12 +116,12 @@ if (isset($_SESSION['user'])&&($_SESSION['user']=="admin")) {
                                     foreach ($departementss as $departements){
                                         if($departements->id_departement==$departement){
                                     ?>
-                                            <option value="departement1" selected><?= $departements->nom ?> </option>
+                                            <option value="<?= $departements->id_departement ?>" selected><?= $departements->nom ?> </option>
                                     <?php
                                         }
                                         else{
                                             ?>
-                                            <option value="departement1" ><?= $departements->nom ?> </option>
+                                            <option value="<?= $departements->id_departement ?>" ><?= $departements->nom ?> </option>
                                         <?php
                                         }
                                         ?>
@@ -128,9 +130,10 @@ if (isset($_SESSION['user'])&&($_SESSION['user']=="admin")) {
                                     ?>
                                 </select>
                             </div>
-                            <form method="get" action="/utilisateur.php">
-                                <button type="submit" name="update">UPDATE</button>
-                            </form>
+                            <input type="submit" value="update" class="myButton">
+
+
+                            <input type="reset" value="annuler" class="muButton2">
                         </form>
 
 
@@ -138,7 +141,6 @@ if (isset($_SESSION['user'])&&($_SESSION['user']=="admin")) {
 
 
 
-                </form>
             </div>
         </main>
 

@@ -69,11 +69,6 @@ if(!empty($_POST['uname'])and !empty($_POST['password'])) {
 
 <form action="login.php" method="post">
 
-    <?php if (isset($_GET['error'])) { ?>
-
-        <p class="error"><?php echo $_GET['error']; ?></p>
-
-    <?php } ?>
 
     <section class="ftco-section">
         <div class="container">
@@ -82,6 +77,12 @@ if(!empty($_POST['uname'])and !empty($_POST['password'])) {
                 <div class="col-md-6 col-lg-5">
 
                     <div class="login-wrap p-4 p-md-5">
+
+
+                            <p class="error"></p>
+
+
+
                         <img src="public/assets/images/mèdina%20logo.png" alt="avatar" style="width:100%">
                         <div class="icon d-flex align-items-center justify-content-center">
                             <span class="fa fa-user-o"></span>
