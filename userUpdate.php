@@ -34,7 +34,7 @@ if (isset($_SESSION['user'])&&($_SESSION['user']=="admin")) {
                     <a href="home.php" ><span class="fa fa-home"></span><span>Accueil</span></a>
                 </li>
                 <li>
-                    <a href="" class="active"><span class="fa fa-user"></span><span>Utilisateurs</span></a>
+                    <a href="utilisateur.php" class="active"><span class="fa fa-user"></span><span>Utilisateurs</span></a>
                 </li>
                 <li>
                     <a href="incident.php"><span class="fa fa-exclamation-circle"></span><span>Incidents</span></a>
@@ -42,9 +42,7 @@ if (isset($_SESSION['user'])&&($_SESSION['user']=="admin")) {
                 <li>
                     <a href=""><span class="fa fa-line-chart"></span><span>Statistique</span></a>
                 </li>
-                <li>
-                    <a href=""><span class="fa fa-address-book"></span><span>A-propos</span></a>
-                </li>
+                <img src="public/assets/images/mèdina%20logo.png" alt="avatar" style="width:100%">
             </ul>
         </div>
     </div>

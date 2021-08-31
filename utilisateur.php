@@ -149,6 +149,7 @@ if (isset($_SESSION['user'])&&($_SESSION['user']=="admin")) {
                                                    class="btn btn-info">Edit</a>
                                                 <a href="utilisateur_delete.php?delete=<?php echo $personne->id_utilisateur; ?>"
                                                    class="btn btn-danger">Delete</a>
+
                                             </td>
                                         </tr>
                                         <?php

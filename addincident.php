@@ -29,7 +29,7 @@ if ((isset($_SESSION['user']))&&($_SESSION['user']=="employe")) {
         <div class="sidebar-menu">
             <ul>
                 <li>
-                    <a href="employehome.php" ><span class="fa fa-home"></span><span>Accueil</span></a>
+                    <a href="home.php" ><span class="fa fa-home"></span><span>Accueil</span></a>
                 </li>
                 <li>
                     <a href="incident.php"><span class="fa fa-exclamation-circle"></span><span>Incidents</span></a>
@@ -47,22 +47,10 @@ if ((isset($_SESSION['user']))&&($_SESSION['user']=="employe")) {
 
 
             <div class="user-wrapper" id="dropdown">
-                <?php
-                if ($_SESSION['user']=="admin") {
-                    ?>
-                    <div>
-                        <small>ADMIN</small>
-                    </div>
-                    <?php
-                }
-                else{
-                    ?>
+
                     <div>
                         <small>EMPLOYE</small>
                     </div>
-                    <?php
-                }
-                ?>
 
                 <img src="public/assets/images/logo-admin.jpg" width="50" height="50" class="logo-admin">
                 <div class="dropdown-content">

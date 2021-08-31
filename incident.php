@@ -116,8 +116,56 @@ if (isset($_SESSION['user'])&&(isset($_SESSION['id']))) {
                             <?php
                             if((isset($_GET['success'])) && $_GET['success']==1){
                             ?>
-                            <p style="color: #00bf00">incident ajouté avec succes</p>
-                            <?php
+                                    <style>
+
+                                        .message {
+                                            display: flex;
+                                            justify-content: center;
+                                            align-items: center;
+                                            min-height: 20vh;
+                                            background: rgba(117, 194, 106, 0.38);
+                                            width: 500px;
+                                            height: 50px;
+                                            margin: 0px auto;
+                                            border-radius: 25px;
+
+
+                                        }
+
+
+                                        #ajoute{
+                                            font-weight: 700;
+                                            text-align: center;
+                                            font-size: 40px;
+                                            font-family: Hack, sans-serif;
+                                            text-transform: uppercase;
+                                            background: linear-gradient(90deg, #000, #fff, #000);
+                                            letter-spacing: 5px;
+                                            -webkit-background-clip: text;
+                                            background-clip: text;
+                                            -webkit-text-fill-color: transparent;
+                                            background-repeat: no-repeat;
+                                            background-size: 80%;
+                                            animation: shine 5s linear infinite;
+                                            position: relative;
+
+                                        }
+
+                                        @keyframes shine {
+                                            0% {
+                                                background-position-x: -500%;
+                                            }
+                                            100% {
+                                                background-position-x: 500%;
+                                            }
+                                        }
+
+                                        /*  Checkout my other pens on  https://codepen.io/grohit/  */
+                                    </style>
+                            <div class="message"><p id="ajoute">incident ajouté avec succes</p>
+                            </div>
+                                <br>
+                                <?php
                             }
                             ?>
                             <?php
@@ -203,9 +251,23 @@ if (isset($_SESSION['user'])&&(isset($_SESSION['id']))) {
                                         }
                                         ?>
 
-
-                                        <td><?= $incident->nom_etat ?></td>
                                         <?php
+                                        if($incident->nom_etat=="en attente"){
+                                        ?>
+                                        <td id="enattente" style="color: #4e4e4e;font-style: normal ">    <?= $incident->nom_etat ?></td>
+                                            <?php
+                                        }elseif ($incident->nom_etat=="corrige"){
+                                            ?>
+                                            <td id="corrige" style="color: #00bf00"><?= $incident->nom_etat ?></td>
+                                                <?php
+
+                                        }else{
+                                            ?>
+                                            <td style="color: #a71d2a "><?= $incident->nom_etat ?></td>
+                                                <?php
+                                        }
+                                            ?>
+                                            <?php
                                             if($_SESSION['user']=="admin"){
                                             $personneRepository = new PersonneRepository();
                                             $personnes = $personneRepository->findAll();

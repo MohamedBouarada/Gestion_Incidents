@@ -218,7 +218,7 @@ if (isset($_SESSION['user'])&&(isset($_SESSION['id']))) {
                                     <div class="form-group">
                                         <label>commentaire</label>
                                         <input type="text" name="commentaire" class="form-control"
-                                                >
+                                               value="<?php if(isset($commentaire)){echo $commentaire; }?>">
                                     </div>
 
                                 </div>
