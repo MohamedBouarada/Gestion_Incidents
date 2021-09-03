@@ -111,7 +111,13 @@ if ((isset($_SESSION['user']))&&($_SESSION['user']=="admin")) {
                                    required >
                         </div>
 
+                        <div class="form-group">
+                            <label>Type</label>
 
+                            <select id="type" name="type" >
+                                <option value="employe" >Employé</option>
+                                <option value="admin" >Administrateur</option>
+                            </select>
 
 
 

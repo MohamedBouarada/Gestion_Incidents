@@ -3,6 +3,7 @@ include_once 'isAuthenticated.php';
 $pageTitle = 'home';
 include_once 'process.php';
 include_once 'autoload.php';
+include_once 'connection.php';
 
 ?>
 <!DOCTYPE html>
@@ -37,6 +38,9 @@ if (isset($_SESSION['id'])&&isset($_SESSION['user'])) {
                     </li>
                     <li>
                         <a href="incident.php" ><span class="fa fa-exclamation-circle"></span><span>Incidents</span></a>
+                    </li>
+                    <li>
+                        <a href="Filiale.php" ><span class="fa fa-building-o" ></span><span>Filiales</span></a>
                     </li>
                     <li>
                         <a href=""><span class="fa fa-line-chart"></span><span>Statistique</span></a>
@@ -175,6 +179,42 @@ if (isset($_SESSION['id'])&&isset($_SESSION['user'])) {
 
                 </div>
             </div>
+            <?php
+            if($_SESSION['user']=="admin"){
+            ?>
+            <div class="card">
+                <div class="container">
+                <?php
+                $result=$conn->query("SELECT * FROM incident WHERE nom_etat='en attente'");
+                $count=$result->num_rows; ?>
+
+                <a href="incident.php?example_filter=enattente" style="display: Block"><img src="https://img.icons8.com/nolan/64/in-progress.png" style="width: 10%; height: 10%"/><b style="color: #0000bf"><?php echo " Nombre d'incident en attente = "; echo $count; ?></b></a>
+
+                </div>
+            </div>
+            <div class="card">
+                <div class="container">
+                    <?php
+                    $result=$conn->query("SELECT * FROM incident WHERE nom_etat='corrige'");
+                    $count=$result->num_rows; ?>
+
+                    <a href="incident.php?example_filter=corrige" style="display: Block"><i class="fa fa-check" aria-hidden="true" style="color: #00bf00"></i><b style="color: #34ce57"><?php echo " Nombre d'incident corrigés = "; echo $count; ?></b></a>
+
+                </div>
+            </div>
+            <div class="card">
+                <div class="container">
+                    <?php
+                    $result=$conn->query("SELECT * FROM incident WHERE nom_etat='non traite'");
+                    $count=$result->num_rows; ?>
+
+                    <a href="incident.php?example_filter=nontraite" style="display: Block"><i class="fa fa-exclamation-circle" aria-hidden="true" style="color: #a71d2a"></i><b style="color: #a71d2a"><?php echo " Nombre d'incident non-traités = "; echo $count; ?></b></a>
+
+                </div>
+            </div>
+            <?php
+            }
+            ?>
         </main>
     </div>
     <?php

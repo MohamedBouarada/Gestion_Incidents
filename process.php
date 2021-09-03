@@ -3,7 +3,17 @@
 include_once 'connection.php';
 if(isset($conn)){
 
+    if(isset($_GET['editfiliale'])){
+        $id=$_GET['editfiliale'];
+        $result = $conn->query("SELECT * FROM filiale WHERE id_filiale='$id'");
 
+        if($result){
+
+            $row = $result->fetch_array();
+            $nom=$row['nom'];
+
+        }
+    }
 
 if(isset($_GET['edit'])){
     $id=$_GET['edit'];

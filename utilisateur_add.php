@@ -13,7 +13,7 @@ $departement=$_POST['departements'];
 $phone=$_POST['phone'];
 $poste=$_POST['poste'];
 $password=$_POST['password'];
-$type="employe";
+$type=$_POST['type'];
 $result = $conn->query("INSERT INTO utilisateur (nom,prenom,username,password,phone,poste,id_departement,type) VALUES ('$nom','$prenom','$username','$password','$phone','$poste','$departement','$type')");
 //header("location: incident.php");
 if($result){

@@ -3,8 +3,10 @@ include_once 'isAuthenticated.php';
 $pageTitle = 'user';
 include_once 'autoload.php';
 include_once 'process.php';
+include_once 'connection.php';
 $personneRepository = new PersonneRepository();
-$personnes = $personneRepository->findAll();
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,6 +18,8 @@ $personnes = $personneRepository->findAll();
     <link rel="stylesheet" type="text/css" href="public/style.css">
     <link rel="stylesheet" type="text/css" href="public/formulaireStyle.scss">
     <link rel="stylesheet" type="text/css" href="public/CSS/ButtonStyle.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css">
+
 </head>
 <body>
 <?php
@@ -73,9 +77,12 @@ if (isset($_SESSION['user'])&&($_SESSION['user']=="admin")) {
             <div class="limiter">
                 <div class="container-table100">
                     <div>
-                        <a href="/userAdd.php" class="myButton">créer un incident</a>
+                        <a href="/userAdd.php" class="myButton">Ajouter un utilisateur</a>
                     </div>
+
                     <div class="wrap-table100">
+
+
                         <div class="table100">
                             <?php
                             if((isset($_GET['success'])) && $_GET['success']==1){
@@ -94,7 +101,7 @@ if (isset($_SESSION['user'])&&($_SESSION['user']=="admin")) {
                                 <?php
                             }else if((isset($_GET['error'])) && $_GET['error']==2){
                                 ?>
-                                <p style="color: #bf0000">Vous devez supprimé les incidents correspondant à cet utilisateur</p>
+                                <p style="color: #bf0000">on ne peut pas supprimer cet utilisateur</p>
                                 <?php
                             }
                             ?>
@@ -105,27 +112,41 @@ if (isset($_SESSION['user'])&&($_SESSION['user']=="admin")) {
                                 <?php
                             }
                             ?>
-                            <table>
+                            <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+                            <script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
+                            <script>
+                                $(document).ready(function() {
+                                    $('#example').DataTable();
+                                } );
+                            </script>
+
+
+                            <table id="example" class="display" width="100%">
+
                                 <thead>
                                 <tr class="table100-head">
-                                    <th class="column1">Username</th>
-                                    <th class="column2">Name</th>
-                                    <th class="column3">First Name</th>
+                                    <th class="column1">Nom</th>
+                                    <th class="column2">Prenom</th>
+                                    <th class="column3">Login</th>
                                     <th class="column4">Poste</th>
-                                    <th class="column5">Phone</th>
+                                    <th class="column5">Telephone</th>
                                     <th class="column7">Département</th>
                                     <th class="column6">Type</th>
-                                    <th colspan="2">Action</th>
+                                    <th >Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <?php foreach ($personnes as $personne) {
-                                    if($personne->type=="employe"){
+                                <?php
+                                $personnes = $personneRepository->findAll();
+
+                                foreach ($personnes as $personne) {
+
                                         ?>
                                         <tr>
-                                            <td><?= $personne->username ?></td>
+
                                             <td><?= $personne->nom ?></td>
                                             <td><?= $personne->prenom ?></td>
+                                            <td><?= $personne->username ?></td>
                                             <td><?= $personne->poste ?></td>
                                             <td><?= $personne->phone ?></td>
                                             <?php
@@ -153,7 +174,7 @@ if (isset($_SESSION['user'])&&($_SESSION['user']=="admin")) {
                                             </td>
                                         </tr>
                                         <?php
-                                    }}
+                                    }
                                 ?>
 
 
@@ -172,14 +193,7 @@ if (isset($_SESSION['user'])&&($_SESSION['user']=="admin")) {
 
         </main>
         <!--===============================================================================================-->
-        <script src="Tab_Utulisateurs/vendor/jquery/jquery-3.2.1.min.js"></script>
-        <!--===============================================================================================-->
-        <script src="Tab_Utulisateurs/vendor/bootstrap/js/popper.js"></script>
-        <script src="Tab_Utulisateurs/vendor/bootstrap/js/bootstrap.min.js"></script>
-        <!--===============================================================================================-->
-        <script src="Tab_Utulisateurs/vendor/select2/select2.min.js"></script>
-        <!--===============================================================================================-->
-        <script src="Tab_Utulisateurs/js/main.js"></script>
+
 
     </div>
     <?php

@@ -4,8 +4,18 @@ $pageTitle = 'incident';
 include_once 'autoload.php';
 include_once 'process.php';
 $incidentRepository = new IncidentRepository();
-$incidents = $incidentRepository->findAll();
+if((isset($_GET['example_filter']))&&($_GET['example_filter']=="enattente")){
+    $incidents = $incidentRepository->findAll_enattente();
 
+}elseif ((isset($_GET['example_filter']))&&($_GET['example_filter']=="corrige")){
+    $incidents=$incidentRepository->findAll_corrige();
+}
+elseif ((isset($_GET['example_filter']))&&($_GET['example_filter']=="nontraite")){
+    $incidents=$incidentRepository->findAll_nontraite();
+}
+else {
+    $incidents = $incidentRepository->findAll();
+}
 
 ?>
 <!DOCTYPE html>
@@ -17,6 +27,8 @@ $incidents = $incidentRepository->findAll();
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="public/style.css">
     <link rel="stylesheet" type="text/css" href="public/CSS/ButtonStyle.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="public/CSS/MessageStyle.css">
 </head>
 <body>
 <?php
@@ -40,7 +52,7 @@ if (isset($_SESSION['user'])&&(isset($_SESSION['id']))) {
                     <a href="utilisateur.php"><span class="fa fa-user"></span><span>Utilisateurs</span></a>
                 </li>
                 <li>
-                    <a href="" class="active"><span class="fa fa-exclamation-circle"></span><span>Incidents</span></a>
+                    <a href="incident.php" class="active"><span class="fa fa-exclamation-circle"></span><span>Incidents</span></a>
                 </li>
                 <li>
                     <a href=""><span class="fa fa-line-chart"></span><span>Statistique</span></a>
@@ -116,82 +128,55 @@ if (isset($_SESSION['user'])&&(isset($_SESSION['id']))) {
                             <?php
                             if((isset($_GET['success'])) && $_GET['success']==1){
                             ?>
-                                    <style>
 
-                                        .message {
-                                            display: flex;
-                                            justify-content: center;
-                                            align-items: center;
-                                            min-height: 20vh;
-                                            background: rgba(117, 194, 106, 0.38);
-                                            width: 500px;
-                                            height: 50px;
-                                            margin: 0px auto;
-                                            border-radius: 25px;
-
-
-                                        }
-
-
-                                        #ajoute{
-                                            font-weight: 700;
-                                            text-align: center;
-                                            font-size: 40px;
-                                            font-family: Hack, sans-serif;
-                                            text-transform: uppercase;
-                                            background: linear-gradient(90deg, #000, #fff, #000);
-                                            letter-spacing: 5px;
-                                            -webkit-background-clip: text;
-                                            background-clip: text;
-                                            -webkit-text-fill-color: transparent;
-                                            background-repeat: no-repeat;
-                                            background-size: 80%;
-                                            animation: shine 5s linear infinite;
-                                            position: relative;
-
-                                        }
-
-                                        @keyframes shine {
-                                            0% {
-                                                background-position-x: -500%;
-                                            }
-                                            100% {
-                                                background-position-x: 500%;
-                                            }
-                                        }
-
-                                        /*  Checkout my other pens on  https://codepen.io/grohit/  */
-                                    </style>
-                            <div class="message"><p id="ajoute">incident ajouté avec succes</p>
+                            <div class="message"><p id="mess">incident ajouté avec succes</p>
                             </div>
-                                <br>
+
                                 <?php
                             }
                             ?>
                             <?php
                             if((isset($_GET['success'])) && $_GET['success']==2){
                                 ?>
-                                <p style="color: #bf0000">incident supprimé</p>
+                            <div class="message">
+                                <p id="mess">incident supprimé</p>
+                            </div>
                                 <?php
                             }
                             else if((isset($_GET['error'])) && $_GET['error']==2){
                             ?>
-                            <p style="color: #bf0000">can't delete incident</p>
-                            <?php
+                            <div class="message_error">
+                            <p id="mess">can't delete incident</p>
+                            </div>
+                                <?php
                             }
                             ?>
                             <?php
                             if((isset($_GET['success'])) && $_GET['success']==3){
                                 ?>
-                                <p style="color: #00bf00">incident modifié avec succes</p>
+                            <div class="message">
+                                <p id="mess">incident modifié avec succes</p>
+                            </div>
                                 <?php
                             }else if((isset($_GET['error'])) && $_GET['error']==3){
                                 ?>
-                                <p style="color: #bf0000">error</p>
+                            <div class="message_error">
+                                <p id="mess">error</p>
+                            </div>
                                 <?php
                             }
                             ?>
-                            <table>
+                            <br>
+                            <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+                            <script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
+                            <script>
+                                $(document).ready(function() {
+                                    $('#example').DataTable();
+                                } );
+                            </script>
+
+
+                            <table id="example" class="display" width="100%">
                                 <thead>
                                 <tr class="table100-head">
                                     <th class="column1">réference</th>
@@ -208,7 +193,7 @@ if (isset($_SESSION['user'])&&(isset($_SESSION['id']))) {
                                     <?php
                                     }
                                     ?>
-                                    <th colspan="2">action</th>
+                                    <th >action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -311,15 +296,7 @@ if (isset($_SESSION['user'])&&(isset($_SESSION['id']))) {
 
 
         </main>
-        <!--===============================================================================================-->
-        <script src="Tab_Utulisateurs/vendor/jquery/jquery-3.2.1.min.js"></script>
-        <!--===============================================================================================-->
-        <script src="Tab_Utulisateurs/vendor/bootstrap/js/popper.js"></script>
-        <script src="Tab_Utulisateurs/vendor/bootstrap/js/bootstrap.min.js"></script>
-        <!--===============================================================================================-->
-        <script src="Tab_Utulisateurs/vendor/select2/select2.min.js"></script>
-        <!--===============================================================================================-->
-        <script src="Tab_Utulisateurs/js/main.js"></script>
+
 
     </div>
 <?php
