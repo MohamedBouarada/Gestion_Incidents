@@ -8,12 +8,14 @@ include_once 'connection.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title><?php echo isset($pageTitle)? $pageTitle: 'projet' ?></title>
     <meta charset="UTF-8">
     <meta name=viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="public/style.css">
+
 </head>
 <body>
 <?php
@@ -214,11 +216,47 @@ if (isset($_SESSION['id'])&&isset($_SESSION['user'])) {
             </div>
             <?php
             }
+
+            elseif($_SESSION['user']=="employe"){
+                ?>
+                <div class="card">
+                    <div class="container">
+                        <?php
+                        $result=$conn->query("SELECT * FROM incident WHERE nom_etat='en attente' AND id_utilisateur=".$_SESSION['id']);
+                        $count=$result->num_rows; ?>
+
+                        <a href="incident.php?example_filter=enattente" style="display: Block"><img src="https://img.icons8.com/nolan/64/in-progress.png" style="width: 10%; height: 10%"/><b style="color: #0000bf"><?php echo " Nombre d'incident en attente = "; echo $count; ?></b></a>
+
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="container">
+                        <?php
+                        $result=$conn->query("SELECT * FROM incident WHERE nom_etat='corrige' AND id_utilisateur=".$_SESSION['id']);
+                        $count=$result->num_rows; ?>
+
+                        <a href="incident.php?example_filter=corrige" style="display: Block"><i class="fa fa-check" aria-hidden="true" style="color: #00bf00"></i><b style="color: #34ce57"><?php echo " Nombre d'incident corrigés = "; echo $count; ?></b></a>
+
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="container">
+                        <?php
+                        $result=$conn->query("SELECT * FROM incident WHERE nom_etat='non traite' AND id_utilisateur=".$_SESSION['id']);
+                        $count=$result->num_rows; ?>
+
+                        <a href="incident.php?example_filter=nontraite" style="display: Block"><i class="fa fa-exclamation-circle" aria-hidden="true" style="color: #a71d2a"></i><b style="color: #a71d2a"><?php echo " Nombre d'incident non-traités = "; echo $count; ?></b></a>
+
+                    </div>
+                </div>
+                <?php
+            }
             ?>
         </main>
     </div>
     <?php
 }
 ?>
+
 </body>
 </html>

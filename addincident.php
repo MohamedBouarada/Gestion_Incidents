@@ -34,6 +34,7 @@ if ((isset($_SESSION['user']))&&($_SESSION['user']=="employe")) {
                 <li>
                     <a href="incident.php"><span class="fa fa-exclamation-circle"></span><span>Incidents</span></a>
                 </li>
+                <img src="public/assets/images/mèdina%20logo.png" alt="avatar" style="width:100%">
             </ul>
         </div>
     </div>
@@ -62,7 +63,8 @@ if ((isset($_SESSION['user']))&&($_SESSION['user']=="employe")) {
         </header>
         <main>
             <div class="form-style-5">
-
+                <br>
+                <br>
                 <div id="demoFont">creation d'un nouveau incident</div>
 
                     <fieldset>
@@ -76,16 +78,16 @@ if ((isset($_SESSION['user']))&&($_SESSION['user']=="employe")) {
                         <form action="incident_add.php" method="POST">
                             <div class="form-group">
                                 <label>Réference</label>
-                                <input type="text" name="reference" class="form-control" required>
+                                <input type="text" name="reference" class="form-control" autocomplete="off" required>
                             </div>
                             <div class="form-group">
                                 <label>Titre</label>
-                                <input type="text" name="titre" class="form-control" required >
+                                <input type="text" name="titre" class="form-control" autocomplete="off" required >
                             </div>
                             <div class="form-group">
                                 <label>Description</label>
                                 <input type="text" name="description" class="form-control"
-                                       required >
+                                       autocomplete="off" required >
                             </div>
                             <div class="form-group">
                                 <label>Prioritè</label>
@@ -114,7 +116,7 @@ if ((isset($_SESSION['user']))&&($_SESSION['user']=="employe")) {
                                     foreach ($filiales as $filiale){
 
                                     ?>
-                                        <option value="<?= $filiale->id_filiale ?>" ><?= $filiale->nom ?> </option>
+                                        <option value="<?= $filiale->id_filiale ?> "  ><?= $filiale->nom ?> </option>
 
                                     <?php
                                     }

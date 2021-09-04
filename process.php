@@ -14,6 +14,17 @@ if(isset($conn)){
 
         }
     }
+    if(isset($_GET['editdepartement'])){
+        $id=$_GET['editdepartement'];
+        $result = $conn->query("SELECT * FROM departement WHERE id_departement='$id'");
+
+        if($result){
+
+            $row = $result->fetch_array();
+            $nom=$row['nom'];
+
+        }
+    }
 
 if(isset($_GET['edit'])){
     $id=$_GET['edit'];

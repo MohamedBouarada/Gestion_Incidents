@@ -47,6 +47,14 @@ class Repository
         $response->execute([]);
         return $response->fetch(PDO::FETCH_OBJ);
     }
+    public function findByIdFiliale($id) {
+        $request = "select * from ".$this->tableName ." where id_filiale = '$id'";
+        $response =$this->bd->prepare($request);
+        $response->execute([]);
+        return $response->fetch(PDO::FETCH_OBJ);
+    }
+
+
     public function findByNom($nom) {
         $recherche="%".$nom."%";
         $request = "select * from ".$this->tableName ." where nom ='$nom'";

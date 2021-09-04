@@ -54,6 +54,9 @@ if (isset($_SESSION['user'])&&(isset($_SESSION['id']))) {
                 <li>
                     <a href="incident.php" class="active"><span class="fa fa-exclamation-circle"></span><span>Incidents</span></a>
                 </li>
+                    <li>
+                        <a href="filiale.php" ><span class="fa fa-building-o"></span><span>Filiales</span></a>
+                    </li>
                 <li>
                     <a href=""><span class="fa fa-line-chart"></span><span>Statistique</span></a>
                 </li>
@@ -124,7 +127,10 @@ if (isset($_SESSION['user'])&&(isset($_SESSION['id']))) {
 
                 <div class="container-table100">
                     <div class="wrap-table100">
-                        <div class="table100">
+                        <a href="incident.php" >
+                        <i class="fa fa-list fa-lg" aria-hidden="true" style="color: #008ea1;padding-left: 900px;" ><span title="All">tous les incidents</span> </i>
+                        </a>
+                            <div class="table100">
                             <?php
                             if((isset($_GET['success'])) && $_GET['success']==1){
                             ?>
@@ -186,6 +192,7 @@ if (isset($_SESSION['user'])&&(isset($_SESSION['id']))) {
                                     <th class="column7">departement</th>
                                     <th class="column8">filiale</th>
                                     <th class="column5">état</th>
+                                    <th class="commentaire">commentaire</th>
                                     <?php
                                     if($_SESSION['user']=="admin"){
                                     ?>
@@ -251,8 +258,11 @@ if (isset($_SESSION['user'])&&(isset($_SESSION['id']))) {
                                             <td style="color: #a71d2a "><?= $incident->nom_etat ?></td>
                                                 <?php
                                         }
-                                            ?>
-                                            <?php
+                                            if($_SESSION['user']=="employe"){
+                                                ?>
+                                                <td><?= $incident->commentaire ?></td>
+                                                    <?php
+                                            }
                                             if($_SESSION['user']=="admin"){
                                             $personneRepository = new PersonneRepository();
                                             $personnes = $personneRepository->findAll();

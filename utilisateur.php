@@ -43,6 +43,9 @@ if (isset($_SESSION['user'])&&($_SESSION['user']=="admin")) {
                     <a href="incident.php"><span class="fa fa-exclamation-circle"></span><span>Incidents</span></a>
                 </li>
                 <li>
+                    <a href="filiale.php" ><span class="fa fa-building-o"></span><span>Filiales</span></a>
+                </li>
+                <li>
                     <a href=""><span class="fa fa-line-chart"></span><span>Statistique</span></a>
                 </li>
                 <img src="public/assets/images/mèdina%20logo.png" alt="avatar" style="width:100%">
